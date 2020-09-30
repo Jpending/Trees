@@ -3,7 +3,9 @@ import {Form, FormControl, InputGroup, Button} from 'react-bootstrap'
 class App extends React.Component {
   state={
     currVal: null,
-    valArr: [],
+    valArr: [89, 30, 25, 32, 72, 70, 51, 42, 25, 24, 53, 55, 78, 50, 13, 40, 48, 32, 26, 2, 14, 33, 45, 72, 56, 44, 21, 88, 27, 68, 15, 62, 93, 98, 73, 28, 16, 46, 87, 28, 65, 38, 67, 16, 85, 63, 23, 69, 64, 91, 9, 70, 81, 27, 97, 82, 6, 88, 3, 7, 46, 13, 11, 64, 76, 31, 26, 38, 28, 13, 17, 69, 90, 1, 6, 7, 64, 43, 9, 73, 80, 98, 46, 27, 22, 87, 49, 83, 6, 39, 42, 51, 54, 84, 34, 53, 78, 40, 14, 5,
+
+    ],
     count: null,
     bool: ''
   }
@@ -25,9 +27,36 @@ class App extends React.Component {
   }
 
   arrSort=() => {
-    return this.state.valArr.sort();
+    let newArr=this.state.valArr.sort((a, b) => {return a-b});
+    return newArr;
   }
 
+  binarySearch=(array, value, start, end, count) => {
+    count=count===undefined? 1:count+1;
+    start=start===undefined? 0:start;
+
+    end=end===undefined? array.length:end;
+
+    if(start>end) {
+      return this.setState({bool: 'false', count: count});
+    }
+
+    const index=Math.floor((start+end)/2);
+    const item=array[index];
+
+    console.log(start, end, item, index);
+    if(item==value) {
+      this.setState({count: count, bool: 'true'})
+      return index;
+    }
+    else if(item<value) {
+
+      return this.binarySearch(array, value, index+1, end, count);
+    }
+    else if(item>value) {
+      return this.binarySearch(array, value, start, index-1, count);
+    }
+  };
 
   handleLinearSubmit=() => {
     this.setState({count: null})
@@ -36,7 +65,7 @@ class App extends React.Component {
     let count=0;
     for(let i=0;i<valArr.length;i++) {
       count++;
-      if(valArr[i]===currVal) {
+      if(valArr[i]==currVal) {
         this.setState({count: count})
         this.setState({bool: 'true'})
         return;
@@ -48,7 +77,9 @@ class App extends React.Component {
 
   }
 
-  handleBinarySubmit=() => {}
+  handleBinarySubmit=() => {
+    this.binarySearch(this.arrSort(), this.state.currVal)
+  }
 
 
   render() {
@@ -70,7 +101,7 @@ class App extends React.Component {
           </InputGroup>
           <Button className="m-2 px-2 border rounded shadow" variant="primary" size="lg" onClick={this.handleSubmit} >Submit</Button>
           <Button className="m-2 px-2 border rounded shadow" variant="primary" size="lg " onClick={this.handleLinearSubmit}>Linear</Button>
-          <Button className="m-2 px-2 border rounded shadow" variant="primary" size="lg">Binary</Button>
+          <Button className="m-2 px-2 border rounded shadow" variant="primary" size="lg" onClick={this.handleBinarySubmit}>Binary</Button>
         </Form>{' '}
 
 
