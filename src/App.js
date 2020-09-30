@@ -3,8 +3,8 @@ import {Form, FormControl, InputGroup, Button} from 'react-bootstrap'
 class App extends React.Component {
   state={
     currVal: null,
-    valArr: [89, 30, 25, 32, 72, 70, 51, 42, 25, 24, 53, 55, 78, 50, 13, 40, 48, 32, 26, 2, 14, 33, 45, 72, 56, 44, 21, 88, 27, 68, 15, 62, 93, 98, 73, 28, 16, 46, 87, 28, 65, 38, 67, 16, 85, 63, 23, 69, 64, 91, 9, 70, 81, 27, 97, 82, 6, 88, 3, 7, 46, 13, 11, 64, 76, 31, 26, 38, 28, 13, 17, 69, 90, 1, 6, 7, 64, 43, 9, 73, 80, 98, 46, 27, 22, 87, 49, 83, 6, 39, 42, 51, 54, 84, 34, 53, 78, 40, 14, 5,
-
+    valArr: [],
+    setArr: [89, 30, 25, 32, 72, 70, 51, 42, 25, 24, 53, 55, 78, 50, 13, 40, 48, 32, 26, 2, 14, 33, 45, 72, 56, 44, 21, 88, 27, 68, 15, 62, 93, 98, 73, 28, 16, 46, 87, 28, 65, 38, 67, 16, 85, 63, 23, 69, 64, 91, 9, 70, 81, 27, 97, 82, 6, 88, 3, 7, 46, 13, 11, 64, 76, 31, 26, 38, 28, 13, 17, 69, 90, 1, 6, 7, 64, 43, 9, 73, 80, 98, 46, 27, 22, 87, 49, 83, 6, 39, 42, 51, 54, 84, 34, 53, 78, 40, 14, 5,
     ],
     count: null,
     bool: ''
@@ -22,12 +22,19 @@ class App extends React.Component {
 
   }
 
+  selectFromArr(e) {
+    let value=e.target.id;
+    this.setState({currVal: value})
+  }
+
   treeAddVals=(func) => {
     this.state.valArr.forEach(val => {func(val)})
   }
-
-  arrSort=() => {
-    let newArr=this.state.valArr.sort((a, b) => {return a-b});
+  renderSetArr=() => {
+    return this.state.setArr.map((val, i) => <h4 className="flex-1 font-bold text-xl px-2 m-2 w-1/12 bg-blue-500 rounded-full hover:bg-yellow-300 transition duration-100 ease-in-out transform hover:-translate-y-1 hover:scale-125" onClick={(e) => this.selectFromArr(e)} id={val} key={i+1}>{val}</h4>)
+  }
+  arrSort=(arr) => {
+    let newArr=arr.sort((a, b) => {return a-b});
     return newArr;
   }
 
@@ -78,13 +85,13 @@ class App extends React.Component {
   }
 
   handleBinarySubmit=() => {
-    this.binarySearch(this.arrSort(), this.state.currVal)
+    this.binarySearch(this.arrSort(this.state.setArr), this.state.currVal)
   }
 
 
   render() {
     return (
-      <div className="App text-center p-4 font-mono">
+      <div className="App text-center align-items-center p-4 font-mono">
         <header className="App-header mb-8">
           <h1 className="text-5xl ">Binary Search Trees</h1>
         </header>
@@ -96,7 +103,6 @@ class App extends React.Component {
               placeholder="Enter value here"
             />
             <InputGroup.Append>
-              <InputGroup.Text id="basic-addon2" className="bg-gray-200"></InputGroup.Text>
             </InputGroup.Append>
           </InputGroup>
           <Button className="m-2 px-2 border rounded shadow" variant="primary" size="lg" onClick={this.handleSubmit} >Submit</Button>
@@ -105,7 +111,12 @@ class App extends React.Component {
         </Form>{' '}
 
 
-
+        <div className="align-center px-40 mt-8">
+          <h2>Our Array</h2>
+          <div className="flex flex-row flex-wrap max-w-md ">
+            {this.renderSetArr()}
+          </div>
+        </div>
       </div>
     )
   }
