@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
 
-  <App />
+  <App key={89998329} />
   ,
   document.getElementById('root')
 );
