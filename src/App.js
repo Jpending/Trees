@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React from 'react';
 import {Form, FormControl, InputGroup, Button} from 'react-bootstrap'
 import FadeIn from './FadeIn.js'
